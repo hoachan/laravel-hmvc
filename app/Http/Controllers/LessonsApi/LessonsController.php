@@ -1,11 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Lesson;
+namespace App\Http\Controllers\LessonsApi;
 
 use Modules\Api\Lesson;
 use Illuminate\Http\Request;
 
-class LessonController extends Controller
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Response;
+
+class LessonsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +17,11 @@ class LessonController extends Controller
      */
     public function index()
     {
-        //
+        $lessons = Lesson::all();
+
+        return Response::json([
+            'data' => $lessons->toArray()
+        ], 200);
     }
 
     /**
@@ -41,12 +48,24 @@ class LessonController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Lesson  $lesson
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Lesson $lesson)
+    public function show($id)
     {
-        //
+
+        $lesson = Lesson::find($id);
+
+        if (! $lesson) {
+            return Response::json([
+                'error' => [
+                    'message'   => 'Lesson does not exist',
+                ]
+            ], 404);
+        }
+        return Response::json([
+            'data' => $lesson->toArray()
+        ]);
     }
 
     /**

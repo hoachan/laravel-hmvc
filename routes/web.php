@@ -14,7 +14,11 @@
 Route::get('/', function () {
     return view('welcome');
 });
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::group(['prefix' => 'api/v1'], function (){
+    Route::resource('lesson', 'LessonsApi\LessonsController');
+});
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
