@@ -20,7 +20,7 @@ class LessonsController extends Controller
         $lessons = Lesson::all();
 
         return Response::json([
-            'data' => $lessons->toArray()
+            'data' => $this->transformCollection($lessons)
         ], 200);
     }
 
@@ -100,5 +100,22 @@ class LessonsController extends Controller
     public function destroy(Lesson $lesson)
     {
         //
+    }
+
+    /**
+     * Transform data to hoping json
+     *  @param  \App\Lesson  $lessons
+     */
+    public function transformCollection($lessons){
+
+        return array_map([$this, 'trasform'], $lessons->toArray());
+    }
+
+    public function trasform($lessons){
+        return [
+            'title_of_lesson'   => $lessons['title'],
+            'body'              => $lessons['body'],
+            'active'         => (Boolean)$lessons['some_bool'],
+        ];
     }
 }
