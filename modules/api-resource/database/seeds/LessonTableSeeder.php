@@ -15,6 +15,6 @@ class LessonTableSeeder extends Seeder
         Modules\Api\Lesson::truncate();
 
         factory(Modules\Api\Lesson::class, 10)->create();
-        //
+
     }
 }

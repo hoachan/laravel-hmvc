@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Api;
+namespace Modules\LessonApi;
 
 use Illuminate\Database\Eloquent\Model;
 

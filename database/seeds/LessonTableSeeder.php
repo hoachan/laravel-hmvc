@@ -12,9 +12,9 @@ class LessonTableSeeder extends Seeder
     public function run()
     {
 
-        Modules\Api\Lesson::truncate();
+        Modules\LessonApi\Lesson::truncate();
 
-        factory(Modules\Api\Lesson::class, 20)->create();
+        factory(Modules\LessonApi\Lesson::class, 20)->create();
 
     }
 }

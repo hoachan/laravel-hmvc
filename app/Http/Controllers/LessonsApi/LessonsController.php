@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\LessonsApi;
 
-use Modules\Api\Lesson;
+use Modules\LessonApi\Lesson;
+use Modules\LessonApi\LessonTransfomer;
+
 use Illuminate\Http\Request;
 
 use App\Http\Controllers\Controller;
@@ -10,6 +12,16 @@ use Illuminate\Support\Facades\Response;
 
 class LessonsController extends Controller
 {
+
+    /**
+     * @var \Modules\LessonApi\LessonTransfomer
+     */
+    protected $lessonTransformer;
+
+    function __construct(LessonTransfomer $lessonTransformer){
+        $this->lessonTransformer = $lessonTransformer;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -20,7 +32,7 @@ class LessonsController extends Controller
         $lessons = Lesson::all();
 
         return Response::json([
-            'data' => $this->transformCollection($lessons)
+            'data' => $this->lessonTransformer->transformCollection($lessons->all())
         ], 200);
     }
 
@@ -100,22 +112,5 @@ class LessonsController extends Controller
     public function destroy(Lesson $lesson)
     {
         //
-    }
-
-    /**
-     * Transform data to hoping json
-     *  @param  \App\Lesson  $lessons
-     */
-    public function transformCollection($lessons){
-
-        return array_map([$this, 'trasform'], $lessons->toArray());
-    }
-
-    public function trasform($lessons){
-        return [
-            'title_of_lesson'   => $lessons['title'],
-            'body'              => $lessons['body'],
-            'active'         => (Boolean)$lessons['some_bool'],
-        ];
     }
 }
