@@ -8,6 +8,7 @@ class ApiController extends Controller {
 
     protected $statusCode = 200;
 
+    const HTTP_NOT_FOUND = 404;
     /**
      * Get the value of statusCode
      */ 
@@ -28,11 +29,29 @@ class ApiController extends Controller {
         return $this;
     }
 
+    /**
+     * @param $message
+     * @return mixed
+     */
     public function respondNotFound($message = 'Not Found !'){
-        return $this->setStatusCode(404)->respondWithError($message);
+        return $this->setStatusCode(self::HTTP_NOT_FOUND)->respondWithError($message);
+    }
+
+    /**
+     * @param $message
+     * @return mixed
+     */
+    public function respondInternalError($message = 'Internal Error'){
+        return $this->setStatusCode(500)->respondWithError($message);
     }
 
 
+
+    /**
+     * @param $data
+     * @param $headers array
+     * @return mixed
+     */
     public function respond($data, $headers = []){
         
         return Response::json($data, $this->getStatusCode(), $headers); 
@@ -50,4 +69,15 @@ class ApiController extends Controller {
             ]
         ]);
     }
+
+    /**
+     * @param $message
+     * @return mixed
+     */
+    public function respondCreated($message){
+        return $this->setStatusCode(201)->respond([
+            'message'   => $message,
+            'status'    => 'success'
+        ]);
+    }    
 }

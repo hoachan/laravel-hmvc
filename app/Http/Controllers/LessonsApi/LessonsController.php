@@ -48,13 +48,24 @@ class LessonsController extends ApiController
 
     /**
      * Store a newly created resource in storage.
+     * POST /api/v1/lesson
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        //
+        if (!request()->input('title')  || !request()->input('body')){
+            // return some kind of respond
+            //400, 403, 422
+            //provide a message
+            return $this->setStatusCode(422)
+                        ->respondWithError('Parameter failed valiadtion for lesson');
+        }
+
+        Lesson::create(request()->all());
+
+        return $this->respondCreated('Lesson successfully created. ');
     }
 
     /**

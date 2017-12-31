@@ -8,7 +8,7 @@ class Lesson extends Model
 {
     
     protected $fillable = [
-        'title', 'body'
+        'title', 'body', 'some_bool'
     ];
 
     protected $hidden = ['updated_at'];
