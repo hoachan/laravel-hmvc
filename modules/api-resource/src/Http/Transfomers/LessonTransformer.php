@@ -9,11 +9,12 @@ class LessonTransfomer  extends Transformer{
      *  @param  \App\Lesson  $lessons
      */
 
-    public function transform($lessons){
+    public function transform($lesson){
+
         return [
-            'title_of_lesson'   => $lessons['title'],
-            'body'              => $lessons['body'],
-            'active'         => (Boolean)$lessons['some_bool'],
+            'title_of_lesson'   => $lesson['title'],
+            'body'              => $lesson['body'],
+            'active'            => (Boolean)$lesson['some_bool'],
         ];
     }
 }
