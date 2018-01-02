@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Response;
 
+use Illuminate\Pagination\LengthAwarePaginator as Paginator;
 class ApiController extends Controller {
 
     protected $statusCode = 200;
@@ -79,5 +80,23 @@ class ApiController extends Controller {
             'message'   => $message,
             'status'    => 'success'
         ]);
-    }    
+    }
+
+    /**
+     * @param $data
+     * @param $lessons
+     * @return mixed
+     */
+    public function respondWithPagination(Paginator $paginator, $data){
+
+        $data = array_merge($data, [
+            'paginator' => [
+                'total_count'    => $paginator->total(),
+                'total_page'     => ceil($paginator->total() / $paginator->perPage()),   
+                'current_page'   => $paginator->currentPage(),
+                'limit'          => $paginator->perPage(),
+            ]
+        ]);
+        return $this->respond($data);
+    }
 }
