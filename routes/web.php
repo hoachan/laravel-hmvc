@@ -17,7 +17,17 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'api/v1'], function (){
-    Route::resource('lesson', 'LessonsApi\LessonsController');
+
+    Route::get('lessons/{id}/tags', 'LessonsApi\TagsController@index');
+
+    Route::resource('lessons', 'LessonsApi\LessonsController');
+
+    Route::resource('tags', 'LessonsApi\TagsController', ['only' => [
+                        'index', 'show'
+                    ]]);
+
+
+    // Route::resource('lessons.tags', 'LessonTagsController');
 });
 
 Auth::routes();

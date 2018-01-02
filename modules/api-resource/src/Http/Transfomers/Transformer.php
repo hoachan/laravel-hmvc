@@ -1,4 +1,4 @@
-<?
+<?php
 namespace Modules\LessonApi;
 
 abstract class Transformer {
