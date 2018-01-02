@@ -4,6 +4,7 @@ namespace App\Http\Controllers\LessonsApi;
 
 use Modules\LessonApi\Lesson;
 use Modules\LessonApi\LessonTransfomer;
+use Modules\LessonApi\Resources\LessonResource;
 
 use Illuminate\Http\Request;
 
@@ -30,16 +31,11 @@ class LessonsController extends ApiController
     public function index()
     {
         // $lessons = Lesson::all();
-
         $limit = request()->get('limit') ?:3;
 
         $lessons = Lesson::paginate($limit);
-        // dd(get_class_methods($lessons));
 
-        return $this->respondWithPagination($lessons, [
-            'data' => $this->lessonTransformer->transformCollection($lessons->all()),
-        ]);
-
+        return LessonResource::collection($lessons);
     }
 
     /**
@@ -88,9 +84,8 @@ class LessonsController extends ApiController
         if (! $lesson) {
             return $this->respondNotFound('Lesson does not exist. ');
         }
-        return $this->respond([
-            'data' => $this->lessonTransformer->transform($lesson->toArray())
-        ]);
+        
+        return new LessonResource($lesson);
     }
 
     /**
