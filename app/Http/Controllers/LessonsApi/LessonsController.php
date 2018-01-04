@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\LessonsApi;
 
 use LessonApi;
+use App;
 use Modules\LessonApi\Lesson;
 use Modules\LessonApi\LessonTransfomer;
 use Modules\LessonApi\Resources\LessonResource;
@@ -12,6 +13,8 @@ use Illuminate\Http\Request;
 
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Response;
+
+use Modules\LessonApi\Contracts\Factory;
 
 class LessonsController extends ApiController
 {
@@ -36,6 +39,8 @@ class LessonsController extends ApiController
 
         $google = LessonApi::driver('google')->request();
         $facebook = LessonApi::driver('facebook')->request();
+
+        $goole_2 = App::make(Factory::class)->driver('google')->request();
 
         $lessons = $this->lessons->paginate($limit);
 
