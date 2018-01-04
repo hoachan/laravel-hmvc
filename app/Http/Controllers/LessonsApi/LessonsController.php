@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\LessonsApi;
 
+use LessonApi;
 use Modules\LessonApi\Lesson;
 use Modules\LessonApi\LessonTransfomer;
 use Modules\LessonApi\Resources\LessonResource;
+use Modules\LessonApi\Repositories\LessonRepository;
 
 use Illuminate\Http\Request;
 
@@ -13,14 +15,13 @@ use Illuminate\Support\Facades\Response;
 
 class LessonsController extends ApiController
 {
-
     /**
      * @var \Modules\LessonApi\LessonTransfomer
      */
-    protected $lessonTransformer;
+    protected $lessons;
 
-    function __construct(LessonTransfomer $lessonTransformer){
-        $this->lessonTransformer = $lessonTransformer;
+    function __construct(LessonRepository $lessons){
+        $this->lessons = $lessons;
     }
 
     /**
@@ -33,7 +34,10 @@ class LessonsController extends ApiController
         // $lessons = Lesson::all();
         $limit = request()->get('limit') ?:3;
 
-        $lessons = Lesson::paginate($limit);
+        $google = LessonApi::driver('google')->request();
+        $facebook = LessonApi::driver('facebook')->request();
+
+        $lessons = $this->lessons->paginate($limit);
 
         return LessonResource::collection($lessons);
     }
@@ -84,7 +88,7 @@ class LessonsController extends ApiController
         if (! $lesson) {
             return $this->respondNotFound('Lesson does not exist. ');
         }
-        
+
         return new LessonResource($lesson);
     }
 

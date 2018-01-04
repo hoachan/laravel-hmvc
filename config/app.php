@@ -178,9 +178,9 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         /**
-         * Another Service Provider
+         * Import ThirdParty Service Provider or Own Modules
          */
-        Modules\LessonApi\LessionApiServiceProvider::class,
+        Modules\LessonApi\Providers\LessonApiServiceProvider::class,
     ],
 
     /*
@@ -229,7 +229,7 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
-
+        'LessonApi' => Modules\LessonApi\Facades\LessonApi::class,
     ],
 
 ];
