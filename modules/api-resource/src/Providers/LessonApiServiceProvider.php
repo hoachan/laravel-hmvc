@@ -7,6 +7,8 @@ use Illuminate\Support\ServiceProvider;
 use Modules\LessonApi\Services\LessonApiService;
 use Modules\LessonApi\Contracts\Factory;
 
+use Modules\LessonApi\Cacheable\TagCacheable;
+
 class LessonApiServiceProvider extends ServiceProvider
 {
     /**
@@ -50,6 +52,19 @@ class LessonApiServiceProvider extends ServiceProvider
     {
         $this->app->singleton(Factory::class, function ($app) {
             return new LessonApiService($app);
+        });
+
+        $this->registerCacheable();
+    }
+
+    /**
+     * Regist Class using Cache function
+     */
+    public function registerCacheable(){
+
+        //Tag Eloquent
+        $this->app->singleton(TagCacheable::class, function ($app) {
+            return new TagCacheable('tags');
         });
     }
 

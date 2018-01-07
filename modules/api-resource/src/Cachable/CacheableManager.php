@@ -20,7 +20,9 @@ abstract class CacheableManager {
     }
 
     /**
-     * process cache with fetch all data that have paginate
+     * process cache with fetch all data that using paginate
+     * 
+     * @return array
      */
 
     public function getDataWithPaginate(){

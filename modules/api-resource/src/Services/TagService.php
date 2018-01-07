@@ -31,8 +31,8 @@ class TagService {
 
         $key = 'tags.all.page.'. $page;
 
-        $tagCache = new TagCacheable($key);
-        
+        $tagCache = \App::makeWith(TagCacheable::class, ['key' => $key]);
+
         $tags = $tagCache->getDataWithPaginate();
 
         return $tags;
