@@ -27,7 +27,8 @@ class TagCacheable extends CacheableManager {
          */
         if ($tagPaginate->lastPage() < $page) return [];
 
-        $paginateArr = TransformCommon::filterPaginate($tagPaginate->toArray());
+        $paginateArr = resolve(TransformCommon::class)->filterPaginate($tagPaginate->toArray());
+        
         $tags = TagResource::collection($tagPaginate)->jsonSerialize();
 
         $tags = array_merge(["data" => $tags], $paginateArr);

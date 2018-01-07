@@ -10,7 +10,7 @@ class TransformCommon {
      * @param $arr : data of array that want to convert
      * @return array
      */
-    static public function filterPaginate($paginate){
+    public function filterPaginate($paginate){
         $newPaginate = [
             "link" => [
                 "first" => $paginate["first_page_url"],

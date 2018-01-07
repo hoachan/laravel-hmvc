@@ -9,6 +9,8 @@ use Modules\LessonApi\Contracts\Factory;
 
 use Modules\LessonApi\Cacheable\TagCacheable;
 
+use Modules\LessonApi\Common\TransformCommon;
+
 class LessonApiServiceProvider extends ServiceProvider
 {
     /**
@@ -55,6 +57,7 @@ class LessonApiServiceProvider extends ServiceProvider
         });
 
         $this->registerCacheable();
+        $this->registerUtilCommon();
     }
 
     /**
@@ -63,8 +66,17 @@ class LessonApiServiceProvider extends ServiceProvider
     public function registerCacheable(){
 
         //Tag Eloquent
-        $this->app->singleton(TagCacheable::class, function ($app) {
-            return new TagCacheable('tags');
+        $this->app->bind(TagCacheable::class, function ($app) {
+            return new TagCacheable();
+        });
+    }
+
+    /**
+     * Register common class
+     */
+    public function registerUtilCommon(){
+        $this->app->bind(TransformCommon::class, function ($app) {
+            return new TransformCommon();
         });
     }
 
@@ -75,6 +87,10 @@ class LessonApiServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [Factory::class];
+        return [
+            Factory::class,
+            TransformCommon::class,
+            TagCacheable::class
+        ];
     }
 }
