@@ -12,7 +12,7 @@ class LessonRepository {
      * @return \Laravel\User| null
      */
 
-    public function getAll(){
+    public function all(){
         return Lesson::all();
     }
 

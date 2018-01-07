@@ -10,13 +10,19 @@ use Illuminate\Support\Facades\Response;
 use Modules\LessonApi\Tag;
 use Modules\LessonApi\Lesson;
 use Modules\LessonApi\TagTransformer;
+use Modules\LessonApi\Services\TagService;
 
 class TagsController extends ApiController
 {
 
     protected $tagTransformer;
+    protected $tagService;
 
-    function __construct(TagTransformer $tagTransformer){
+    function __construct(
+        TagTransformer $tagTransformer,
+        TagService $tagService
+    ){
+        $this->tagService = $tagService;
         $this->tagTransformer = $tagTransformer;
     }
 
@@ -28,11 +34,13 @@ class TagsController extends ApiController
      */
     public function index($lessonId = null)
     {
-        $tags = $this->getTags($lessonId);
+        $tags = $this->tagService->all();
 
-        return $this->respond([
-            'data' => $this->tagTransformer->transformCollection($tags->all())
-        ]);
+        if (empty($tags)) {
+            return $this->respondWithError("このページは存在しません。");
+        }
+
+        return $tags;
     }
 
     /**

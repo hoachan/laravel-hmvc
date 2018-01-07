@@ -8,6 +8,14 @@ use Modules\LessonApi\Contracts\Factory;
 use Modules\LessonApi\ThirdParty\Providers\FacebookProvider;
 use Modules\LessonApi\ThirdParty\Providers\GoogleProvider;
 
+/**
+ * defining to get all data record
+ */
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Redis;
+use Modules\LessonApi\Repositories\LessonRepository;
+use Modules\LessonApi\Lesson;
+
 class LessonApiService extends Manager implements Factory {
 
     /**
@@ -75,4 +83,35 @@ class LessonApiService extends Manager implements Factory {
     {
         throw new InvalidArgumentException('No Socialite driver was specified.');
     }
+
+    /**
+     * get all data lesson
+     * 
+     * @param
+     * @return array json
+     */
+
+    public function getAll(){
+
+        // if ($value = Redis::get('lessons.all')){
+        //     return $value;
+        // }
+
+        // $lessons = Lesson::all();
+
+        // Redis::set('lessons.all', $lessons);
+        // return $lessons;
+        $test = [
+            'favorite'  => 20,
+            'start'     => 3,
+        ];
+        Cache::store('redis')->put('users.1.info', $test, 10);
+
+        $andy = Cache::store('redis')->get('users.1.info');
+
+        return Cache::store('redis')->remember('lessons.all', 60 * 60, function(){
+            return Lesson::all();
+        });
+    }
+
 }

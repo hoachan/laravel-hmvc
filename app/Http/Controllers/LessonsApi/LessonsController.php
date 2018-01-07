@@ -37,12 +37,20 @@ class LessonsController extends ApiController
         // $lessons = Lesson::all();
         $limit = request()->get('limit') ?:3;
 
+        /**
+         * Test service provider can be able run
+         */
         $google = LessonApi::driver('google')->request();
         $facebook = LessonApi::driver('facebook')->request();
 
         $goole_2 = App::make(Factory::class)->driver('google')->request();
+        /**
+         * Test service provider can be able run
+         */
 
-        $lessons = $this->lessons->paginate($limit);
+        $lessons = json_decode(LessonApi::getAll());
+return $lessons;
+        // $lessons = $this->lessons->paginate($limit);
 
         return LessonResource::collection($lessons);
     }
