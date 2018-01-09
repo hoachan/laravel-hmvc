@@ -22,7 +22,7 @@ class TagJob implements ShouldQueue
      *
      * @return void
      */
-    public function __construct($tag)
+    public function __construct(Tag $tag)
     {
         $this->tag = $tag;
     }
@@ -38,5 +38,19 @@ class TagJob implements ShouldQueue
             'name' => 'andy killer'
         ]);
         Log::info($this->tag);
+    }
+
+    /**
+     * setting tag for hoizon dashboard
+     * 
+     */
+        /**
+     * Get the tags that should be assigned to the job.
+     *
+     * @return array
+     */
+    public function tags()
+    {
+        return ['tag', 'id:'.$this->tag->id];
     }
 }
