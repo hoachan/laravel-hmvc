@@ -7,23 +7,23 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\ApiController;
 use Illuminate\Support\Facades\Response;
 
+use App\Events\TagEvent;
+
+use App\Jobs\TagJob;
+
 use Modules\LessonApi\Tag;
 use Modules\LessonApi\Lesson;
-use Modules\LessonApi\TagTransformer;
 use Modules\LessonApi\Services\TagService;
 
 class TagsController extends ApiController
 {
 
-    protected $tagTransformer;
     protected $tagService;
 
     function __construct(
-        TagTransformer $tagTransformer,
         TagService $tagService
     ){
         $this->tagService = $tagService;
-        $this->tagTransformer = $tagTransformer;
     }
 
     /**
@@ -35,6 +35,12 @@ class TagsController extends ApiController
     public function index($lessonId = null)
     {
         $tags = $this->tagService->all();
+
+        event(new TagEvent($tags));
+
+        $tag = Tag::find(1);
+
+        TagJob::dispatch($tag);
 
         if (empty($tags)) {
             return $this->respondWithError("このページは存在しません。");

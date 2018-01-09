@@ -29,7 +29,7 @@ class TagService {
     public function all(){
         $page = request()->get('page') ? : 1;
 
-        $key = 'tags.all.page.'. $page;
+        $key = 'tags.index.page.'. $page;
 
         $tagCache = \App::makeWith(TagCacheable::class, ['key' => $key]);
 

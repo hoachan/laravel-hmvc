@@ -67,7 +67,7 @@ class LessonApiServiceProvider extends ServiceProvider
 
         //Tag Eloquent
         $this->app->bind(TagCacheable::class, function ($app) {
-            return new TagCacheable();
+            return new TagCacheable('key');
         });
     }
 
