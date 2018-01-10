@@ -38,7 +38,7 @@ class TagsController extends ApiController
 
         event(new TagEvent($tags));
 
-        $tag = Tag::find(1);
+        $tag = Tag::find($lessonId);
 
         TagJob::dispatch($tag);
 
@@ -46,7 +46,8 @@ class TagsController extends ApiController
             return $this->respondWithError("このページは存在しません。");
         }
 
-        return $tags;
+        return view('welcome');
+        // return $tags;
     }
 
     /**
